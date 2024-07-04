@@ -82,20 +82,33 @@ public class Main {
                 String[] Tokens = code.split("\\s+");
                 for(int i = 0 ; i < Tokens.length ; i++){
                     String command = Tokens[i];
-                    System.out.println(command);
                     switch(command){
                         case "rp":
-                        case "repeat":
+                        case "repeat": //rp 6 [ rp 3 [ fd 50 rt 120 ] rt 60 ] -- no free spaces here
                             int times = Integer.parseInt(Tokens[++i]);
-                            String blockTokens = "";
-                            i+=2; // go forward to the '['
-                            while(!Tokens[i].equals("]")){
-                                blockTokens += (Tokens[i]);
-                                blockTokens += " ";
+                            i++; // go to its [
+
+                            int bracket = 1;
+                            StringBuilder block = new StringBuilder();
+                            while(bracket != 0) {
                                 i++;
+                                if (Tokens[i].equals("[")) {
+                                    block.append(Tokens[i]).append(" ");
+                                    bracket++;
+                                }
+                                else if (Tokens[i].equals("]")) {
+                                    if(bracket != 1){ // only add ] if brackets != 1 meaning its not the last ]
+                                        block.append(Tokens[i]).append(" ");
+                                    }
+                                    bracket--;
+                                }else{
+                                    block.append(Tokens[i]).append(" ");
+                                }
                             }
+                            System.out.println(times);
+                            System.out.println(block.toString());
                             for(int j = 0 ; j < times ; j++){
-                                evaluate(blockTokens);
+                                evaluate(block.toString());
                             }
                             break;
                         case "fd":
