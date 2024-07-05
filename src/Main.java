@@ -1,10 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class Main {
@@ -23,24 +20,16 @@ public class Main {
         canvas.setPreferredSize(new Dimension(800, 800)); // Set preferred size for Canvas
         canvas.setBorder(lineBorder);
         canvas.setBackground(Color.WHITE); // Optional: Set background color
+        canvas.setFocusable(true);
 
         //canvas.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Optional: Add border
-        mainPanel.add(canvas, BorderLayout.WEST);
-
-        // Right panel for Button Bar and Text Editor
-        JPanel rightPanel = new JPanel(new BorderLayout());
-
-        // Button Bar panel at the top
-        JPanel buttonBarPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton resetButton = new JButton("Reset");
-        JButton runButton = new JButton("Run");
-        buttonBarPanel.add(resetButton);
-        buttonBarPanel.add(runButton);
-        rightPanel.add(buttonBarPanel, BorderLayout.NORTH);
+        mainPanel.add(canvas, BorderLayout.CENTER);
 
         // Text Editor (or JTextArea) below the Button Bar
-        JTextArea textArea = new JTextArea();
+        //JTextArea textArea = new JTextArea();
+        JTextField textArea = new JTextField();
         textArea.setForeground(Color.gray);
+        textArea.setSize(800,100);
         textArea.setMargin(new Insets(3,3,10,10));
         Font font = new Font("Fira Code",Font.PLAIN,18);
         textArea.setFont(font);
@@ -57,27 +46,24 @@ public class Main {
             }
             @Override
             public void focusLost(FocusEvent e) {
+                if (textArea.getText().isEmpty()) {
+                    textArea.setForeground(Color.GRAY);
+                    textArea.setText("Your code here");
+                }
             }
         });
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        rightPanel.add(scrollPane, BorderLayout.CENTER);
-
-        mainPanel.add(rightPanel, BorderLayout.CENTER);
+        mainPanel.add(textArea,BorderLayout.SOUTH);
 
         frame.add(mainPanel);
-        resetButton.addActionListener(new ActionListener() {
+        textArea.addKeyListener(new KeyAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                canvas.clear();
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    String code = textArea.getText().toLowerCase();
+                    textArea.setText("");
+                    evaluate(code);
+                }
             }
-        });
-        runButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String code = textArea.getText().toLowerCase();
-                evaluate(code);
-            }
-
             private void evaluate(String code) {
                 String[] Tokens = code.split("\\s+");
                 for(int i = 0 ; i < Tokens.length ; i++){
@@ -136,6 +122,7 @@ public class Main {
                             canvas.setPenDown();
                             break;
                         case "clear":
+                        case "cs":
                             canvas.clear();
                             break;
                         case "bye":
@@ -153,6 +140,7 @@ public class Main {
                 }
             }
         });
+
         frame.setVisible(true);
     }
 }
