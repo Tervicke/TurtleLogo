@@ -74,7 +74,7 @@ public class Main {
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String code = textArea.getText();
+                String code = textArea.getText().toLowerCase();
                 evaluate(code);
             }
 
