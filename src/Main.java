@@ -136,6 +136,12 @@ public class Main {
                         case "hideturtle":
                             canvas.hideturtle();
                             break;
+                        case "setpencolor":
+                            canvas.setpencolor(Integer.parseInt(Tokens[++i]));
+                           break;
+                        case "setscreencolor":
+                            canvas.setscreencolor(Integer.parseInt(Tokens[++i]));
+                            break;
                     }
                 }
             }
@@ -145,6 +151,8 @@ public class Main {
     }
 }
 class Canvas extends JPanel{
+
+
 
     private static class Line{
         int x1;
@@ -234,6 +242,13 @@ class Canvas extends JPanel{
     }
     public void hideturtle(){
         hiddenTurtle = true;
+        repaint();
+    }
+    public void setpencolor(int index) {
+        penColor = lc.getColor(index);
+    }
+    public void setscreencolor(int index) {
+        canvasColor = lc.getColor(index);
         repaint();
     }
 }
