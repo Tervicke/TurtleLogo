@@ -167,13 +167,17 @@ class Canvas extends JPanel{
     private boolean PenDown = true;
     private boolean hiddenTurtle = false;
     private final java.util.List<Line> Lines = new ArrayList<>();
+    private LogoColors lc = new LogoColors();
+    private Color canvasColor = lc.getColor(7);
+    private Color penColor = lc.getColor(0);
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        setBackground(canvasColor);
         if(old_x != new_x || old_y != new_y){
             for(Line l : Lines) {
-                g.setColor(Color.black);
+                g.setColor(penColor);
                 g.drawLine(l.x1 , l.y1 , l.x2 , l.y2);
             }
         }
