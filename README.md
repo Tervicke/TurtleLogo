@@ -5,5 +5,4 @@
 ![preview gif](screenshots/preview.gif)
 
 ## Todo
-- [ ] Add multiple colors
 - [ ] turtle with arrow head  
