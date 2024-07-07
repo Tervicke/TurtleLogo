@@ -35,6 +35,7 @@ public class Main {
         textArea.setFont(font);
         textArea.setText("Your code here");
 
+
         //add focus listener
         textArea.addFocusListener(new FocusListener() {
             @Override
@@ -59,9 +60,17 @@ public class Main {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    String code = textArea.getText().toLowerCase();
+                    String command = textArea.getText();
+                    canvas.newCommandEntered(command);
+                    String code = command.toLowerCase();
                     textArea.setText("");
                     evaluate(code);
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    textArea.setText(canvas.getNextCommand());
+                }
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    textArea.setText(canvas.getPreviousCommand());
                 }
             }
             private void evaluate(String code) {

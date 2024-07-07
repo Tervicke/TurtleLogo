@@ -27,7 +27,8 @@ class Canvas extends JPanel {
     private LogoColors lc = new LogoColors();
     private Color canvasColor = lc.getColor(7);
     private Color penColor = lc.getColor(0);
-
+    private java.util.List<String>  enteredCommands = new ArrayList<>();
+    private int enteredCommandIndex = 0;
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -99,5 +100,26 @@ class Canvas extends JPanel {
     public void setscreencolor(int index) {
         canvasColor = lc.getColor(index);
         repaint();
+    }
+    public void newCommandEntered(String command){
+        enteredCommands.add(command);
+        enteredCommandIndex++;
+        for(String c : enteredCommands){
+            System.out.println(c);
+        }
+    }
+    public String getPreviousCommand(){
+        enteredCommandIndex--;
+        if(enteredCommandIndex < 0){
+            enteredCommandIndex = enteredCommands.size() - 1;
+        }
+        return enteredCommands.get(enteredCommandIndex);
+    }
+    public String getNextCommand(){
+        enteredCommandIndex++;
+        if(enteredCommandIndex >= enteredCommands.size()){
+            enteredCommandIndex = 0;
+        }
+        return enteredCommands.get(enteredCommandIndex);
     }
 }
